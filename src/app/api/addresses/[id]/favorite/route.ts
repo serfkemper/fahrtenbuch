@@ -1,19 +1,11 @@
-import { NextRequest, NextResponse } from "next/server";
+import { NextResponse, type NextRequest } from "next/server";
 import { prisma } from "@/app/lib/prisma";
 
 export async function POST(
-  _req: NextRequest,
-  { params }: { params: Promise<{ id: string }> }
+  req: NextRequest,
+  context: { params: Promise<{ id: string }> }
 ) {
-  const { id } = await params;
+  const { id } = await context.params;
 
-  const found = await prisma.address.findUnique({ where: { id } });
-  if (!found) return NextResponse.json({ error: "Nicht gefunden" }, { status: 404 });
-
-  const updated = await prisma.address.update({
-    where: { id },
-    data: { favorite: !found.favorite },
-  });
-
-  return NextResponse.json(updated);
+  // ...dein bisheriger Code, nur params.id -> id ersetzen...
 }
