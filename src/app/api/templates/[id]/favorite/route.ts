@@ -1,5 +1,5 @@
 import { NextResponse } from "next/server";
-import { prisma } from "../../../../lib/prisma";
+src/app/api/templates/[id]/favorite/route.ts
 
 export async function POST(_: Request, { params }: { params: { id: string } }) {
   const found = await prisma.template.findUnique({ where: { id: params.id } });

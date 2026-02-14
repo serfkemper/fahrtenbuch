@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-import { prisma } from "../../lib/prisma";
+import { prisma } from "@/app/lib/prisma";
+
 
 function toInt(v: any, name: string) {
   const n = Number(v);

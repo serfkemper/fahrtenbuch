@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-import { prisma } from "../../../lib/prisma";
+import { prisma } from "@/app/lib/prisma";
+
 
 function clean(v: any) {
   const s = String(v ?? "").trim();

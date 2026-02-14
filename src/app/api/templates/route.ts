@@ -1,5 +1,6 @@
 import { NextResponse } from "next/server";
-import { prisma } from "../../lib/prisma";
+import { prisma } from "@/app/lib/prisma";
+
 
 export async function GET() {
   const templates = await prisma.template.findMany({

@@ -1,4 +1,5 @@
-import { prisma } from "../../../lib/prisma";
+import { prisma } from "@/app/lib/prisma";
+
 
 function csvEscape(v: any) {
   const s = String(v ?? "");
