@@ -7,5 +7,15 @@ export async function POST(
 ) {
   const { id } = await context.params;
 
-  // ...dein bisheriger Code, nur params.id -> id ersetzen...
+  const found = await prisma.address.findUnique({ where: { id } });
+  if (!found) {
+    return NextResponse.json({ error: "Nicht gefunden" }, { status: 404 });
+  }
+
+  const updated = await prisma.address.update({
+    where: { id },
+    data: { favorite: !found.favorite },
+  });
+
+  return NextResponse.json(updated);
 }
