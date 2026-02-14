@@ -1,18 +1,21 @@
 import { NextResponse } from "next/server";
 import { prisma } from "@/app/lib/prisma";
 
-
-
 function clean(v: any) {
   const s = String(v ?? "").trim();
   return s.length ? s : null;
 }
 
-export async function POST(req: Request, { params }: { params: { id: string } }) {
+export async function POST(
+  req: Request,
+  { params }: { params: Promise<{ id: string }> }
+) {
+  const { id } = await params;
+
   const body = await req.json();
 
   const updated = await prisma.address.update({
-    where: { id: params.id },
+    where: { id },
     data: {
       street: body.street !== undefined ? clean(body.street) : undefined,
       zip: body.zip !== undefined ? clean(body.zip) : undefined,
