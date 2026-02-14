@@ -1,0 +1,73 @@
+datasource db {
+  provider = "postgresql"
+}
+
+
+generator client {
+  provider = "prisma-client-js"
+}
+
+model Address {
+  id        String   @id @default(cuid())
+  label     String
+  street    String?
+  zip       String?
+  city      String?
+  country   String   @default("DE")
+  favorite  Boolean  @default(false)
+  tripsFrom   Trip[]     @relation("StartAddress")
+  tripsTo     Trip[]     @relation("DestAddress")
+  templatesFrom Template[] @relation("TemplateStart")
+  templatesTo   Template[] @relation("TemplateDest")
+
+  createdAt DateTime @default(now())
+  updatedAt DateTime @updatedAt
+}
+
+model Trip {
+  id             String   @id @default(cuid())
+  date           DateTime
+  purpose        Purpose
+  project        String?
+  startKm        Int
+  endKm          Int
+  distance       Int
+  notes          String?
+
+  startAddressId String
+  destAddressId  String
+  startAddress   Address @relation("StartAddress", fields: [startAddressId], references: [id])
+  destAddress    Address @relation("DestAddress",  fields: [destAddressId],  references: [id])
+
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([date])
+  @@index([startAddressId])
+  @@index([destAddressId])
+}
+
+model Template {
+  id             String   @id @default(cuid())
+  name           String
+  purpose        Purpose
+  project        String?
+  notesHint      String?
+  favorite       Boolean  @default(false)
+
+  startAddressId String
+  destAddressId  String
+  startAddress   Address  @relation("TemplateStart", fields: [startAddressId], references: [id])
+  destAddress    Address  @relation("TemplateDest",  fields: [destAddressId], references: [id])
+
+  createdAt      DateTime @default(now())
+  updatedAt      DateTime @updatedAt
+
+  @@index([favorite])
+  @@index([name])
+}
+
+enum Purpose {
+  BUSINESS
+  PRIVATE
+}
