@@ -1,6 +1,5 @@
 import { NextResponse, type NextRequest } from "next/server";
 import { prisma } from "../../../../lib/prisma";
-
 function clean(v: any) {
   const s = String(v ?? "").trim();
   return s.length ? s : null;
