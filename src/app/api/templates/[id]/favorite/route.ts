@@ -7,10 +7,7 @@ export async function POST(
 ) {
   const { id } = await context.params;
 
-  const found = await prisma.template.findUnique({
-    where: { id },
-  });
-
+  const found = await prisma.template.findUnique({ where: { id } });
   if (!found) {
     return NextResponse.json({ error: "Nicht gefunden" }, { status: 404 });
   }
